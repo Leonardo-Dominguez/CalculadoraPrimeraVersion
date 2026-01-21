@@ -16,6 +16,11 @@ public class Ventana extends JFrame{
     //Por ejemplo
     private JButton bSumar;
     private JButton bLimpiar;
+    private JButton bRestar;
+    private JButton bDivision;
+    private JButton bMultiplicar;
+    private JButton bIgual;
+
 
     Ventana(){
         //------Código cubierto durante la clase----------
@@ -36,7 +41,10 @@ public class Ventana extends JFrame{
 
         //TAREA
         //faltan los botones de restar, multiplicar, dividir y dar resultado 'igual'
-
+        this.bRestar = new JButton("-");
+        this.bDivision = new JButton("/");
+        this.bMultiplicar = new JButton("*");
+        this.bIgual = new JButton("=");
         //---------- código de clase ----------------
 
         JPanel panelResultado = new JPanel();
@@ -78,6 +86,14 @@ public class Ventana extends JFrame{
         panelBotones.add(bNumeros[5]);
         panelBotones.add(bNumeros[6]);
         panelBotones.add(bSumar);
+        panelBotones.add(bNumeros[1]);
+        panelBotones.add(bNumeros[2]);
+        panelBotones.add(bNumeros[3]);
+        panelBotones.add(bRestar);
+        panelBotones.add(bNumeros[0]);
+        panelBotones.add(bIgual);
+        panelBotones.add(bMultiplicar);
+        panelBotones.add(bDivision);
 
         //----------- Código de la clase ------------
         this.setLayout(new BorderLayout());
