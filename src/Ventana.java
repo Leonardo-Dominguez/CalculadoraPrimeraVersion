@@ -1,6 +1,10 @@
+import com.formdev.flatlaf.FlatLightLaf;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 //Estamos en la clase "Ventana" y la clase Ventana -extiende- la clase JFrame
 //La clase JFrame es una de las clases que nos da Java para crear ventanas de
@@ -15,22 +19,30 @@ public class Ventana extends JFrame{
     //Aquí, agregar los botones que usaremos para las operaciones
     //Por ejemplo
     private JButton bSumar;
-    private JButton bLimpiar;
     private JButton bRestar;
-    private JButton bDivision;
+    private JButton bLimpiar;
     private JButton bMultiplicar;
+    private JButton bDivision;
     private JButton bIgual;
 
+
+    private boolean primerArgumentoListo = false;
+    private double primerArgumento = 0;
+    private char operador = 'N';
+    private boolean segundoArgumentoListo = false;
+    private boolean primeraOperacion = true;
 
     Ventana(){
         //------Código cubierto durante la clase----------
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setSize(600, 600);
+        this.setSize(400, 600);
         this.setLocationRelativeTo(null);
 
         this.tfRespuesta = new JTextField("Calculadora");
-        this.tfRespuesta.setBorder(new LineBorder(Color.RED, 5));
-        this.tfRespuesta.setPreferredSize(new Dimension(300, 300));
+        //this.tfRespuesta.setBorder(new LineBorder(Color.RED, 5));
+        this.tfRespuesta.setPreferredSize(new Dimension(200, 200));
+        this.tfRespuesta.setEnabled(false);
+        this.tfRespuesta.setHorizontalAlignment(JTextField.RIGHT);
 
         this.bNumeros = generaBotonesNumeros();
 
@@ -45,6 +57,92 @@ public class Ventana extends JFrame{
         this.bDivision = new JButton("/");
         this.bMultiplicar = new JButton("*");
         this.bIgual = new JButton("=");
+
+        new JButton();
+        this.bLimpiar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primerArgumento = 0;
+                operador = 'N';
+                tfRespuesta.setText("");
+                primerArgumentoListo = false;
+            }
+        });
+
+        this.bSumar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primerArgumento = Double.parseDouble(tfRespuesta.getText());
+                String textoActual = tfRespuesta.getText();
+                tfRespuesta.setText("");
+                operador = '+';
+                primerArgumentoListo = true;
+            }
+        });
+
+        this.bRestar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primerArgumento = Double.parseDouble(tfRespuesta.getText());
+                String textoActual = tfRespuesta.getText();
+                tfRespuesta.setText("");
+                operador = '-';
+                primerArgumentoListo = true;
+            }
+        });
+
+        this.bDivision.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primerArgumento = Double.parseDouble(tfRespuesta.getText());
+                String textoActual = tfRespuesta.getText();
+                tfRespuesta.setText("");
+                operador = '/';
+                primerArgumentoListo = true;
+            }
+        });
+
+        this.bMultiplicar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primerArgumento = Double.parseDouble(tfRespuesta.getText());
+                String textoActual = tfRespuesta.getText();
+                tfRespuesta.setText("");
+                operador = '*';
+                primerArgumentoListo = true;
+            }
+        });
+
+        this.bIgual.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double resultado = 0;
+                double segundoArgumento = Double.parseDouble(tfRespuesta.getText());
+
+
+                switch (operador){
+                    case '+':
+                        resultado = primerArgumento + segundoArgumento;
+                        break;
+                    case '-':
+                        resultado = primerArgumento - segundoArgumento;
+                        break;
+                    case '/':
+                        resultado = primerArgumento / segundoArgumento;
+                        break;
+                    case '*':
+                        resultado = primerArgumento * segundoArgumento;
+                        break;
+                }
+
+                tfRespuesta.setText("" + resultado);
+            }
+        });
+
+
+
+
+
         //---------- código de clase ----------------
 
         JPanel panelResultado = new JPanel();
@@ -108,12 +206,30 @@ public class Ventana extends JFrame{
         JButton[] botones  = new JButton[10];
         for(int i = 0; i < 10; i++){
             botones[i] = new JButton(""+ i);
+            botones[i].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (primeraOperacion){
+                        tfRespuesta.setText("");
+                        primeraOperacion = false;
+
+                    }
+                    JButton botonNumero = (JButton) e.getSource();
+                    String textoActual = tfRespuesta.getText();
+                    tfRespuesta.setText(textoActual + botonNumero.getText());
+
+                }
+            });
         }
 
         return botones;
     }
 
     public static void main(String[] args) {
+
+        FlatLightLaf.setup();
+
+
         Ventana v = new Ventana();
     }
 
